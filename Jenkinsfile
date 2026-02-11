@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonarqube-server') {
-                        sh 'mvn sonar:sonar'
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://35.173.215.240:9000'
                     }
                 }
             }

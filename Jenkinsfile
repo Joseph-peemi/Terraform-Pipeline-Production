@@ -33,7 +33,7 @@ pipeline {
         stage("SonarQube Analysis") {
             steps {
                 script {
-                    sh 'curl -v http://35.173.215.240:9000/api/system/status || echo "SonarQube unreachable"'
+                    sh 'curl -v http://44.221.63.4:8080/api/system/status || echo "SonarQube unreachable"'
                     withSonarQubeEnv('sonarqube-server') {
                         sh 'mvn sonar:sonar'
                     }

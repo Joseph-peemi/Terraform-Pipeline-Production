@@ -33,9 +33,10 @@ pipeline {
         stage("SonarQube Analysis") {
             steps {
                 script {
-                    sh 'curl -v http://44.221.63.4:8080/api/system/status || echo "SonarQube unreachable"'
                     withSonarQubeEnv('sonarqube-server') {
-                        sh 'mvn sonar:sonar'
+                        withCredentials([string(credentialsId: 'Jenkins-sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                            sh 'mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN'
+                        }
                     }
                 }
             }

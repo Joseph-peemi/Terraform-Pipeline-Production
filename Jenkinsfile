@@ -35,7 +35,7 @@ pipeline {
                 script {
                     withSonarQubeEnv('sonarqube-server') {
                         withCredentials([string(credentialsId: 'Jenkins-sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                            sh 'mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN'
+                            sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar -Dsonar.token=$SONAR_TOKEN'
                         }
                     }
                 }

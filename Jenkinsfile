@@ -58,12 +58,9 @@ pipeline {
         stage('Build & Push Docker Image') {
       steps {
         script {
-          docker.withRegistry(' ', DOCKER_PASS) {
+          docker.withRegistry('https://index.docker.io/v1/', DOCKER_PASS) {
             docker_image = docker.build(IMAGE_NAME)
-          }
-
-          docker.withRegistry(' ', DOCKER_PASS) {
-            docker_image.push("$RELEASE_VERSION")
+            docker_image.push("${RELEASE_VERSION}")
             docker_image.push('latest')
           }
         }

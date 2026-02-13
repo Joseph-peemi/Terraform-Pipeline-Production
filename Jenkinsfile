@@ -13,6 +13,7 @@ pipeline {
         DOCKER_PASS = 'dockerhub'
         IMAGE_NAME = "${DOCKER_USER}/${APP_NAME}"
         IMAGE_TAG = "${RELEASE_VERSION}"
+        CD_TRIGGER_TOKEN = 'gitops-token'
     }
 
     stages {
@@ -80,13 +81,22 @@ pipeline {
       }
         }
 
-        stage('Cleanup Artifacts') {
+        stage('Trigger CD Pipeline') {
       steps {
         script {
-          sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
-          sh "docker rmi ${IMAGE_NAME}:latest"
+          echo "Triggering CD pipeline with IMAGE_TAG = ${APP_NAME}:${RELEASE_VERSION}"
+          build job: 'gitops-complete-pipeline',
+                        parameters: [string(name: 'IMAGE_TAG', value: "${APP_NAME}:${RELEASE_VERSION}")],
+                        wait: false,
+                        token: "${CD_TRIGGER_TOKEN}"
         }
       }
+        }
+    }
+
+    post {
+        always {
+      cleanWs()
         }
     }
 }

@@ -87,8 +87,7 @@ pipeline {
           echo "Triggering CD pipeline with IMAGE_TAG = ${APP_NAME}:${RELEASE_VERSION}"
           build job: 'gitops-complete-pipeline',
                         parameters: [string(name: 'IMAGE_TAG', value: "${APP_NAME}:${RELEASE_VERSION}")],
-                        wait: false,
-                        token: "${CD_TRIGGER_TOKEN}"
+                        wait: false
         }
       }
         }
